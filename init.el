@@ -15,9 +15,12 @@
 
 ;; UI
 (scroll-bar-mode -1)
+(defalias 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (set-frame-parameter nil 'fullscreen 'fullboth)
 (custom-set-variables
+ ;; For terminial the best is wheatgrass
+ ;; Could't find a way to load it for terminal only
  '(custom-enabled-themes (quote (solarized-light)))
  '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))))
 
