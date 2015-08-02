@@ -1,0 +1,8 @@
+# Emacs specific
+.#*
+*.*~
+*.*#
+
+# OS specific
+.DS_Store
+Thumbs.db
