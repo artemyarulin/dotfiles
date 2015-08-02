@@ -28,6 +28,7 @@
 (setq projectile-enable-caching nil)
 (helm-projectile-on)
 (helm-mode 1)
+(setq helm-candidate-number-limit 1000)
 
 
 ;; cider
