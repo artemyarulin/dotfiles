@@ -27,6 +27,8 @@
 (set-frame-parameter nil 'fullscreen 'fullboth)
 (show-paren-mode t)
 (display-time)
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
 
 
 ;; Projectile + helm
