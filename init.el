@@ -9,6 +9,7 @@
 
 
 ;; Customization
+(delete-selection-mode 1)
 (setq-default indent-tabs-mode nil
               standard-indent 2
               make-backup-files nil
