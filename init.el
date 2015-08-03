@@ -27,9 +27,6 @@
 (setq inhibit-startup-screen t)
 (set-frame-parameter nil 'fullscreen 'fullboth)
 (show-paren-mode t)
-(display-time)
-(setq display-time-24hr-format t)
-(setq display-time-day-and-date t)
 
 
 ;; Projectile + helm
@@ -62,6 +59,7 @@
                  :height 2.0
                  :foreground "white")))))
 
+
 ;; Custom functions
 (defun toggle-theme ()
   (interactive)
@@ -79,5 +77,3 @@
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
-
-
