@@ -22,6 +22,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(blink-cursor-mode 0)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (set-frame-parameter nil 'fullscreen 'fullboth)
@@ -58,15 +59,13 @@
 
 ;; Custom functions
 (defun toggle-theme ()
-  "Toggle between light and dark themes. Different dark theme is used if emacs runs in terminal"
   (interactive)
-  (cond ((and is-theme-dark (not window-system)) (load-theme 'wheatgrass t)
-         (set-face-attribute 'helm-selection nil :background "#A9A9A9"))
-        (is-theme-dark (load-theme 'solarized-dark t))
-        ((not is-theme-dark) (load-theme 'solarized-light t)))
+  (if is-theme-dark
+      (load-theme 'zenburn t)
+      (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
-(setq is-theme-dark (not window-system))
+(setq is-theme-dark t)
 (toggle-theme)
 
 
