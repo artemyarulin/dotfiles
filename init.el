@@ -56,7 +56,11 @@
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(setq aw-background nil)
+(custom-set-faces '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground
+                 :background "black"
+                 :height 2.0
+                 :foreground "white")))))
 
 ;; Custom functions
 (defun toggle-theme ()
