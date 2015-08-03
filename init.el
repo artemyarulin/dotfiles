@@ -56,12 +56,13 @@
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-background nil)
 
 ;; Custom functions
 (defun toggle-theme ()
   (interactive)
   (if is-theme-dark
-      (load-theme 'zenburn t)
+      (load-theme 'monokai t)
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
