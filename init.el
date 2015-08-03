@@ -53,6 +53,8 @@
       js2-missing-semi-one-line-override nil)
 (add-hook 'js-mode-hook 'js2-minor-mode)
 
+;; ace
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;; Custom functions
 (defun toggle-theme ()
@@ -71,4 +73,7 @@
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
 (global-set-key (kbd "C-q") 'mark-sexp)
+(global-set-key (kbd "C-x o") 'ace-window)
+(global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
+
 
