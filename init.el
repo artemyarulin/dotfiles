@@ -59,6 +59,11 @@
                  :height 2.0
                  :foreground "white")))))
 
+;; swiper
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(global-set-key "\C-s" 'swiper)
+(global-set-key "\C-r" 'swiper)
 
 ;; Custom functions
 (defun toggle-theme ()
