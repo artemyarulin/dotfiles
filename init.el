@@ -49,7 +49,8 @@
 ;; js2
 (setq js2-strict-missing-semi-warning nil
       js2-missing-semi-one-line-override nil)
-(custom-set-variables '(js2-basic-offset 2))
+(custom-set-variables '(js2-basic-offset 2)
+                      '(js2-bounce-indent-p nil))
 (add-hook 'js-mode-hook 'js2-minor-mode)
 
 
