@@ -49,7 +49,9 @@
 ;; js2
 (setq js2-strict-missing-semi-warning nil
       js2-missing-semi-one-line-override nil)
+(custom-set-variables '(js2-basic-offset 2))
 (add-hook 'js-mode-hook 'js2-minor-mode)
+
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -59,11 +61,11 @@
                  :height 2.0
                  :foreground "white")))))
 
+
 ;; swiper
-;;(ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (global-set-key "\C-s" 'swiper)
-(global-set-key "\C-r" 'swiper)
+
 
 ;; Custom functions
 (defun toggle-theme ()
