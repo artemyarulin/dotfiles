@@ -11,6 +11,7 @@
 ;; Customization
 (delete-selection-mode 1)
 (setq-default indent-tabs-mode nil
+              cursor-type 'bar
               standard-indent 2
               make-backup-files nil
               column-number-mode t
@@ -27,6 +28,7 @@
 (setq inhibit-startup-screen t)
 (set-frame-parameter nil 'fullscreen 'fullboth)
 (show-paren-mode t)
+(put 'narrow-to-region 'disabled nil)
 
 
 ;; Projectile + helm
