@@ -10,13 +10,15 @@
 
 ;; Customization
 (delete-selection-mode 1)
-(setq-default indent-tabs-mode nil
-              cursor-type 'bar
-              standard-indent 2
-              make-backup-files nil
-              column-number-mode t
-              backup-directory-alist `((".*" . ,temporary-file-directory))
-              auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setq indent-tabs-mode nil
+      cursor-type 'bar
+      standard-indent 2
+      make-backup-files nil
+      column-number-mode t
+      backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      initial-scratch-message ""
+      visible-bell t)
 
 
 ;; UI
@@ -29,7 +31,8 @@
 (set-frame-parameter nil 'fullscreen 'fullboth)
 (show-paren-mode t)
 (put 'narrow-to-region 'disabled nil)
-
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Projectile + helm
 (setq projectile-completion-system 'helm
