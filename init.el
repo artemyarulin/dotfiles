@@ -9,6 +9,7 @@
 
 
 ;; Customization
+(require 'uniquify)
 (delete-selection-mode 1)
 (setq indent-tabs-mode nil
       cursor-type 'bar
