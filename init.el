@@ -41,6 +41,8 @@
 (add-hook 'after-init-hook #'projectile-global-mode)
 (helm-projectile-on)
 (helm-mode 1)
+(setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
+(global-set-key (kbd "C-c g") 'helm-google-suggest)
 
 
 ;; Cider
