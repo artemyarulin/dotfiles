@@ -7,6 +7,21 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+(defvar my-packages '(cider
+                      helm
+                      projectile
+                      helm-projectile
+                      js2-mode
+                      ace-window
+                      ace-jump-mode
+                      monokai-theme
+                      solarized-theme
+                      swiper))
+
+(dolist (p my-packages)
+      (when (not (package-installed-p p))
+          (package-install p)))
+
 
 ;; Customization
 (require 'uniquify)
