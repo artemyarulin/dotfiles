@@ -108,3 +108,10 @@
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
+
+(defun log-wmr ()
+  (interactive)
+  (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
+  (highlight-regexp "====.WARNING.======" 'hi-red-b)
+  (highlight-regexp "====.ERROR.======" 'hi-red-b)
+  (highlight-regexp "^.*STARTED.ON.*$" 'hi-blue-b))
