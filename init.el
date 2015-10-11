@@ -99,6 +99,13 @@
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
+(defun log-wmr ()
+  (interactive)
+  (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
+  (highlight-regexp "====.WARNING.======" 'hi-red-b)
+  (highlight-regexp "====.ERROR.======" 'hi-red-b)
+  (highlight-regexp "^.*STARTED.ON.*$" 'hi-blue-b))
+
 (setq is-theme-dark t)
 (toggle-theme)
 
@@ -109,9 +116,7 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
 
-(defun log-wmr ()
-  (interactive)
-  (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
-  (highlight-regexp "====.WARNING.======" 'hi-red-b)
-  (highlight-regexp "====.ERROR.======" 'hi-red-b)
-  (highlight-regexp "^.*STARTED.ON.*$" 'hi-blue-b))
+(global-set-key (kbd "s-<down>")  'windmove-down)
+(global-set-key (kbd "s-<left>")  'windmove-left)
+(global-set-key (kbd "s-<right>") 'windmove-right)
+(global-set-key (kbd "s-<up>")    'windmove-up)
