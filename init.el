@@ -68,6 +68,9 @@
       cider-show-error-buffer 'only-in-repl
       cider-prompt-save-file-on-load nil)
 
+(defun figwheel ()
+  (interactive)
+  (insert "(use 'figwheel-sidecar.repl-api)(cljs-repl)"))
 
 ;; js2
 (setq js2-strict-missing-semi-warning nil
