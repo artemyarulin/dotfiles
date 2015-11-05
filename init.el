@@ -16,7 +16,8 @@
                       ace-jump-mode
                       monokai-theme
                       solarized-theme
-                      swiper))
+                      swiper,
+		      centered-window-mode))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
@@ -49,6 +50,8 @@
 (put 'narrow-to-region 'disabled nil)
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(require 'centered-window-mode)
+(centered-window-mode t)
 
 ;; Projectile + helm
 (setq projectile-completion-system 'helm
