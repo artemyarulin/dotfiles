@@ -50,8 +50,7 @@
 (put 'narrow-to-region 'disabled nil)
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(require 'centered-window-mode)
-(centered-window-mode t)
+
 
 ;; Projectile + helm
 (setq projectile-completion-system 'helm
@@ -105,6 +104,8 @@
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
+(require 'centered-window-mode)
+
 (defun log-wmr ()
   (interactive)
   (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
@@ -118,6 +119,8 @@
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
+(global-set-key (kbd "<f8>") 'centered-window-mode)
+
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
