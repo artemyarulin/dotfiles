@@ -16,8 +16,7 @@
                       ace-jump-mode
                       monokai-theme
                       solarized-theme
-                      swiper,
-		      centered-window-mode))
+                      swiper))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
@@ -104,8 +103,6 @@
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
-(require 'centered-window-mode)
-
 (defun log-wmr ()
   (interactive)
   (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
@@ -119,7 +116,6 @@
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
-(global-set-key (kbd "<f8>") 'centered-window-mode)
 
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
