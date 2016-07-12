@@ -22,6 +22,9 @@
       (when (not (package-installed-p p))
           (package-install p)))
 
+;; PATH
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;; Customization
 (require 'uniquify)
@@ -36,7 +39,6 @@
       initial-scratch-message ""
       visible-bell t)
 
-
 ;; UI
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -50,7 +52,6 @@
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-
 ;; Projectile + helm
 (setq projectile-completion-system 'helm
       projectile-enable-caching nil
@@ -60,7 +61,6 @@
 (helm-mode 1)
 (setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
 (global-set-key (kbd "C-c g") 'helm-google-suggest)
-
 
 ;; Cider
 (add-hook 'cider-mode-hook #'eldoc-mode)
@@ -79,7 +79,6 @@
 (custom-set-variables '(js2-basic-offset 2)
                       '(js2-bounce-indent-p nil))
 (add-hook 'js-mode-hook 'js2-minor-mode)
-
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -103,16 +102,8 @@
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
 
-(defun log-wmr ()
-  (interactive)
-  (highlight-regexp "^[0-9][[:digit:][:space:]/:\\.]\\{20\\}" 'hi-green-b)
-  (highlight-regexp "====.WARNING.======" 'hi-red-b)
-  (highlight-regexp "====.ERROR.======" 'hi-red-b)
-  (highlight-regexp "^.*STARTED.ON.*$" 'hi-blue-b))
-
 (setq is-theme-dark t)
 (toggle-theme)
-
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
