@@ -73,6 +73,14 @@
   (interactive)
   (insert "(use 'figwheel-sidecar.repl-api)(cljs-repl)"))
 
+(defun cljc-test (ns)
+  (interactive "sTest namespace:")
+  (insert (concat "(ns " ns "-test\n"
+		  "  (:require #?(:clj [clojure.test :refer [is are deftest]]\n"
+		  "               :cljs [cljs.test :refer-macros [is are deftest]])\n"
+		  "            [" ns " :refer []]))"))
+  (backward-char 4))
+
 ;; js2
 (setq js2-strict-missing-semi-warning nil
       js2-missing-semi-one-line-override nil)
