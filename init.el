@@ -67,6 +67,7 @@
 (setq nrepl-log-messages nil
       nrepl-hide-special-buffers t
       cider-show-error-buffer 'only-in-repl
+      cider-repl-pop-to-buffer-on-connect nil
       cider-prompt-save-file-on-load nil)
 
 (defun figwheel ()
