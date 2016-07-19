@@ -78,7 +78,7 @@
   (interactive "sTest namespace:")
   (insert (concat "(ns " ns "-test\n"
 		  "  (:require #?(:clj [clojure.test :refer [is are deftest]]\n"
-		  "               :cljs [cljs.test :refer-macros [is are deftest]])\n"
+		  "               :cljs [cljs.test :refer-macros [is are deftest async]])\n"
 		  "            [" ns " :refer []]))"))
   (backward-char 4))
 
