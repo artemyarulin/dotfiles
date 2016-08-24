@@ -16,28 +16,57 @@
                       ace-jump-mode
                       monokai-theme
                       solarized-theme
-                      swiper))
+                      swiper
+                      shell-pop))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
           (package-install p)))
 
-;; PATH
+;; ENV/PATH
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setenv "LANG" "en_US.UTF-8")
+(setenv "NODE_NO_READLINE" "1") ;; Fixes NODE REPL from garbage
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;; Customization
 (require 'uniquify)
 (delete-selection-mode 1)
+(setq-default cursor-type 'bar)
 (setq indent-tabs-mode nil
-      cursor-type 'bar
       standard-indent 2
+      fill-column 120
+      require-final-newline t
       make-backup-files nil
       column-number-mode t
       backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       initial-scratch-message ""
-      visible-bell t)
+      visible-bell nil
+      kill-whole-line t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq ring-bell-function ;; Highlight status line on error
+      (lambda ()
+        (invert-face 'mode-line)
+        (run-with-timer 0.05 nil 'invert-face 'mode-line)))
+
+;; Shell + shell-pop
+(setq comint-scroll-to-bottom-on-input t
+      comint-get-old-input (lambda () "")
+      comint-input-sender (lambda (proc command)
+                            (cond ;; Check for clear command and execute it.
+                             ((string-match "^[ \t]*clear[ \t]*$" command)
+                              (comint-send-string proc "\n")
+                              (erase-buffer))
+                             (t (comint-simple-send proc command)))))
+(custom-set-variables
+ '(shell-pop-default-directory "/Users/fessguid/Project/nopomore")
+ '(shell-pop-full-span t)
+ '(shell-pop-shell-type (quote ("shell" "*shell*" (lambda nil (shell)))))
+ '(shell-pop-term-shell "/bin/bash")
+ '(shell-pop-universal-key "<f9>") ;; CAPSLOCK remapped to it
+ '(shell-pop-window-position "bottom")
+ '(shell-pop-window-size 30))
 
 ;; UI
 (scroll-bar-mode -1)
@@ -85,8 +114,6 @@
 ;; js2
 (setq js2-strict-missing-semi-warning nil
       js2-missing-semi-one-line-override nil)
-(custom-set-variables '(js2-basic-offset 2)
-                      '(js2-bounce-indent-p nil))
 (add-hook 'js-mode-hook 'js2-minor-mode)
 
 ;; ace
@@ -104,6 +131,10 @@
 
 
 ;; Custom functions
+(defun date-battery ()
+  (interactive)
+  (message (replace-regexp-in-string "%" "%%" (delete ?\n (shell-command-to-string "date '+%H:%M %d %b' && echo ' ' && pmset -g batt | egrep -o '\\d{2,3}%'")))))
+
 (defun toggle-theme ()
   (interactive)
   (if is-theme-dark
@@ -116,6 +147,7 @@
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
+(global-set-key (kbd "<f1>") 'date-battery)
 
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
