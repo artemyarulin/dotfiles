@@ -46,7 +46,7 @@
       kill-whole-line t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq ring-bell-function ;; Highlight status line on error
-      (lambda ()
+      (lambda()
         (invert-face 'mode-line)
         (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 
@@ -60,13 +60,14 @@
                               (erase-buffer))
                              (t (comint-simple-send proc command)))))
 (custom-set-variables
- '(shell-pop-default-directory "/Users/fessguid/Project/nopomore")
+ '(shell-pop-default-directory "/Users/fessguid/Projects/nopomore")
+ '(shell-pop-autocd-to-working-dir nil)
  '(shell-pop-full-span t)
  '(shell-pop-shell-type (quote ("shell" "*shell*" (lambda nil (shell)))))
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "<f9>") ;; CAPSLOCK remapped to it
  '(shell-pop-window-position "bottom")
- '(shell-pop-window-size 30))
+ '(shell-pop-window-size 40))
 
 ;; UI
 (scroll-bar-mode -1)
@@ -82,8 +83,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Projectile + helm
+(setq projectile-enable-caching t)
 (setq projectile-completion-system 'helm
-      projectile-enable-caching nil
       helm-candidate-number-limit 1000)
 (add-hook 'after-init-hook #'projectile-global-mode)
 (helm-projectile-on)
@@ -99,17 +100,10 @@
       cider-repl-pop-to-buffer-on-connect nil
       cider-prompt-save-file-on-load nil)
 
-(defun figwheel ()
-  (interactive)
-  (insert "(use 'figwheel-sidecar.repl-api)(cljs-repl)"))
-
-(defun cljc-test (ns)
-  (interactive "sTest namespace:")
-  (insert (concat "(ns " ns "-test\n"
-		  "  (:require #?(:clj [clojure.test :refer [is are deftest]]\n"
-		  "               :cljs [cljs.test :refer-macros [is are deftest async]])\n"
-		  "            [" ns " :refer []]))"))
-  (backward-char 4))
+(global-prettify-symbols-mode t)
+(add-hook 'clojure-mode
+            (lambda ()
+              (push '("fn" . ?λ) prettify-symbols-alist)))
 
 ;; js2
 (setq js2-strict-missing-semi-warning nil
@@ -124,7 +118,6 @@
                  :height 2.0
                  :foreground "white")))))
 
-
 ;; swiper
 (setq ivy-use-virtual-buffers t)
 (global-set-key "\C-s" 'swiper)
@@ -133,17 +126,20 @@
 ;; Custom functions
 (defun date-battery ()
   (interactive)
-  (message (replace-regexp-in-string "%" "%%" (delete ?\n (shell-command-to-string "date '+%H:%M %d %b' && echo ' ' && pmset -g batt | egrep -o '\\d{2,3}%'")))))
+  (message (replace-regexp-in-string "%" "%%" (delete ?\n (shell-command-to-string "date '+%H:%M %A %d %b ' && pmset -g batt | egrep -o '\\d{1,3}%'")))))
 
+(setq is-theme-dark t)
 (defun toggle-theme ()
   (interactive)
   (if is-theme-dark
       (load-theme 'monokai t)
       (load-theme 'solarized-light t))
   (setq is-theme-dark (not is-theme-dark)))
-
-(setq is-theme-dark t)
 (toggle-theme)
+
+(defun figwheel ()
+  (interactive)
+  (insert "(use 'figwheel-sidecar.repl-api)(cljs-repl)"))
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
@@ -157,5 +153,3 @@
 (global-set-key (kbd "s-<left>")  'windmove-left)
 (global-set-key (kbd "s-<right>") 'windmove-right)
 (global-set-key (kbd "s-<up>")    'windmove-up)
-
-(global-set-key (kbd "M-\\") 'just-one-space)
