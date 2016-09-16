@@ -122,6 +122,13 @@
 (setq ivy-use-virtual-buffers t)
 (global-set-key "\C-s" 'swiper)
 
+;; org-mode
+(setq org-src-fontify-natively t)
+
+;; File associations
+(add-to-list 'auto-mode-alist '("BUCK\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("lib\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; Custom functions
 (defun date-battery ()
