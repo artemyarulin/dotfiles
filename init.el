@@ -37,13 +37,20 @@
       standard-indent 2
       fill-column 120
       require-final-newline t
-      make-backup-files nil
       column-number-mode t
-      backup-directory-alist `((".*" . ,temporary-file-directory))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       initial-scratch-message ""
       visible-bell nil
-      kill-whole-line t)
+      kill-whole-line t
+      ;; backup
+      make-backup-files t
+      auto-save-mode t
+      backup-by-copying t
+      version-control t
+      delete-old-versions t
+      kept-old-versions 6
+      kept-new-versions 9
+      vc-make-backup-files t
+      backup-directory-alist '(("." . "~/.saves")))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq ring-bell-function ;; Highlight status line on error
       (lambda()
