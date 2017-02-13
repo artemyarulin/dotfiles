@@ -12,6 +12,7 @@
                       projectile
                       helm-projectile
                       js2-mode
+                      json-mode
                       ace-window
                       ace-jump-mode
                       monokai-theme
@@ -68,7 +69,7 @@
                              (t (comint-simple-send proc command)))))
 (custom-set-variables
  '(shell-pop-default-directory "/Users/fessguid/Projects/nopomore")
- '(shell-pop-autocd-to-working-dir nil)
+ '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-full-span t)
  '(shell-pop-shell-type (quote ("shell" "*shell*" (lambda nil (shell)))))
  '(shell-pop-term-shell "/bin/bash")
