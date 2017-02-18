@@ -42,16 +42,11 @@
       initial-scratch-message ""
       visible-bell nil
       kill-whole-line t
-      ;; backup
-      make-backup-files t
-      auto-save-mode t
-      backup-by-copying t
-      version-control t
-      delete-old-versions t
-      kept-old-versions 6
-      kept-new-versions 9
-      vc-make-backup-files t
-      backup-directory-alist '(("." . "~/.saves")))
+      ;; scroll
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-step 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq ring-bell-function ;; Highlight status line on error
       (lambda()
