@@ -18,7 +18,8 @@
                       monokai-theme
                       solarized-theme
                       swiper
-                      shell-pop))
+                      shell-pop
+                      rjsx-mode))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
@@ -34,6 +35,7 @@
 (require 'uniquify)
 (delete-selection-mode 1)
 (setq-default cursor-type 'bar)
+(setq-default indent-tabs-mode nil)
 (setq indent-tabs-mode nil
       standard-indent 2
       fill-column 120
@@ -110,7 +112,10 @@
 
 ;; js2
 (setq js2-strict-missing-semi-warning nil
-      js2-missing-semi-one-line-override nil)
+      js2-missing-semi-one-line-override nil
+      js2-strict-inconsistent-return-warning nil
+      js2-basic-offset 2)
+(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
 
 ;; ace
