@@ -20,7 +20,8 @@
                       swiper
                       rjsx-mode
                       magit
-                      tide))
+                      tide
+                      company))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
@@ -80,12 +81,11 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Projectile + helm
-(setq projectile-enable-caching t)
+(setq projectile-enable-caching nil)
 (setq projectile-completion-system 'helm
       helm-candidate-number-limit 1000)
 (add-hook 'after-init-hook #'projectile-global-mode)
 (helm-projectile-on)
-(helm-mode 1)
 (setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
 
 ;; Cider
@@ -108,6 +108,20 @@
       js2-basic-offset 2)
 (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
+
+;; TypeScript
+(global-company-mode)
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+(setq company-tooltip-align-annotations t)
+(setq typescript-indent-level 2)
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
