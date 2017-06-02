@@ -18,8 +18,9 @@
                       monokai-theme
                       solarized-theme
                       swiper
-                      shell-pop
-                      rjsx-mode))
+                      rjsx-mode
+                      magit
+                      tide))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
@@ -36,9 +37,10 @@
 (delete-selection-mode 1)
 (setq-default cursor-type 'bar)
 (setq-default indent-tabs-mode nil)
+(global-auto-revert-mode)
 (setq indent-tabs-mode nil
       standard-indent 2
-      fill-column 120
+      fill-column 85
       require-final-newline t
       column-number-mode t
       initial-scratch-message ""
@@ -49,13 +51,12 @@
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse 't
       scroll-step 1)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq ring-bell-function ;; Highlight status line on error
       (lambda()
         (invert-face 'mode-line)
         (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 
-;; Shell + shell-pop
+;; Shell
 (setq comint-scroll-to-bottom-on-input t
       comint-get-old-input (lambda () "")
       comint-input-sender (lambda (proc command)
@@ -64,15 +65,6 @@
                               (comint-send-string proc "\n")
                               (erase-buffer))
                              (t (comint-simple-send proc command)))))
-(custom-set-variables
- '(shell-pop-default-directory "/Users/fessguid/Projects/nopomore")
- '(shell-pop-autocd-to-working-dir t)
- '(shell-pop-full-span t)
- '(shell-pop-shell-type (quote ("shell" "*shell*" (lambda nil (shell)))))
- '(shell-pop-term-shell "/bin/bash")
- '(shell-pop-universal-key "<f9>") ;; CAPSLOCK remapped to it
- '(shell-pop-window-position "bottom")
- '(shell-pop-window-size 40))
 
 ;; UI
 (scroll-bar-mode -1)
@@ -95,7 +87,6 @@
 (helm-projectile-on)
 (helm-mode 1)
 (setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
-(global-set-key (kbd "C-c g") 'helm-google-suggest)
 
 ;; Cider
 (add-hook 'cider-mode-hook #'eldoc-mode)
@@ -120,11 +111,8 @@
 
 ;; ace
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(custom-set-faces '(aw-leading-char-face
-   ((t (:inherit ace-jump-face-foreground
-                 :background "black"
-                 :height 2.0
-                 :foreground "white")))))
+(custom-set-faces
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :background "black" :height 2.0 :foreground "white")))))
 
 ;; swiper
 (setq ivy-use-virtual-buffers t)
@@ -134,14 +122,19 @@
 (setq org-src-fontify-natively t)
 
 ;; File associations
-(add-to-list 'auto-mode-alist '("BUCK\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("lib\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; Custom functions
 (defun date-battery ()
   (interactive)
   (message (replace-regexp-in-string "%" "%%" (delete ?\n (shell-command-to-string "date '+%H:%M %A %d %b ' && pmset -g batt | egrep -o '\\d{1,3}%'")))))
+
+(defun prettier ()
+  (interactive)
+  (shell-command
+   (format "$(npm bin)/prettier --write --no-semi --single-quote --no-bracket-spacing --print-width %s %s"
+           (if (string-match "react-monorepo" (buffer-file-name)) "100" "85")
+           (shell-quote-argument (buffer-file-name)))))
 
 (setq is-theme-dark t)
 (defun toggle-theme ()
@@ -159,10 +152,13 @@
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
 (global-set-key (kbd "<f1>") 'date-battery)
+(global-set-key (kbd "<f2>") 'magit-status)
+(global-set-key (kbd "<f4>") 'prettier)
 
 (global-set-key (kbd "C-q") 'mark-sexp)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
+(global-set-key (kbd "C-c g") 'helm-google-suggest)
 
 (global-set-key (kbd "s-<down>")  'windmove-down)
 (global-set-key (kbd "s-<left>")  'windmove-left)
