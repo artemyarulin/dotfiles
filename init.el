@@ -86,6 +86,7 @@
       helm-candidate-number-limit 1000)
 (add-hook 'after-init-hook #'projectile-global-mode)
 (helm-projectile-on)
+(helm-mode 1)
 (setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
 
 ;; Cider
@@ -110,7 +111,6 @@
 (add-hook 'js-mode-hook 'js2-minor-mode)
 
 ;; TypeScript
-(global-company-mode)
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
