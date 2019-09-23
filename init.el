@@ -13,25 +13,24 @@
                       helm-projectile
                       js2-mode
                       json-mode
-                      ace-window
-                      ace-jump-mode
                       monokai-theme
                       solarized-theme
                       swiper
                       rjsx-mode
                       magit
                       tide
-                      company))
+                      company
+                      indium))
 
 (dolist (p my-packages)
       (when (not (package-installed-p p))
           (package-install p)))
 
 ;; ENV/PATH
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Users/fessguid/go/bin"))
 (setenv "LANG" "en_US.UTF-8")
 (setenv "NODE_NO_READLINE" "1") ;; Fixes NODE REPL from garbage
-(setq exec-path (append exec-path '("/usr/local/bin")))
+(setq exec-path (append exec-path '("/usr/local/bin" "/Users/fessguid/go/bin")))
 
 ;; Customization
 (require 'uniquify)
@@ -51,7 +50,8 @@
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse 't
-      scroll-step 1)
+      scroll-step 1
+      backup-directory-alist `(("." . "~/.saves")))
 (setq ring-bell-function ;; Highlight status line on error
       (lambda()
         (invert-face 'mode-line)
@@ -81,26 +81,17 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Projectile + helm
+(require 'helm-config)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (setq projectile-enable-caching nil)
 (setq projectile-completion-system 'helm
-      helm-candidate-number-limit 1000)
+      helm-candidate-number-limit 1500)
 (add-hook 'after-init-hook #'projectile-global-mode)
 (helm-projectile-on)
 (helm-mode 1)
 (setq helm-google-suggest-search-url "http://www.google.com/search?source=ig&hl=en&rlz=1G1GGLQ_ENUS264&q=%s&btnI=I'm+Feeling+Lucky")
-
-;; Cider
-(add-hook 'cider-mode-hook #'eldoc-mode)
-(setq nrepl-log-messages nil
-      nrepl-hide-special-buffers t
-      cider-show-error-buffer 'only-in-repl
-      cider-repl-pop-to-buffer-on-connect nil
-      cider-prompt-save-file-on-load nil)
-
-(global-prettify-symbols-mode t)
-(add-hook 'clojure-mode
-            (lambda ()
-              (push '("fn" . ?λ) prettify-symbols-alist)))
 
 ;; js2
 (setq js2-strict-missing-semi-warning nil
@@ -123,10 +114,12 @@
 (setq typescript-indent-level 2)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-;; ace
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(custom-set-faces
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :background "black" :height 2.0 :foreground "white")))))
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
 
 ;; swiper
 (setq ivy-use-virtual-buffers t)
@@ -134,6 +127,7 @@
 
 ;; org-mode
 (setq org-src-fontify-natively t)
+(global-set-key (kbd "M-s-<down>") 'org-table-insert-row)
 
 ;; File associations
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -146,8 +140,7 @@
 (defun prettier ()
   (interactive)
   (shell-command
-   (format "$(npm bin)/prettier --write --no-semi --single-quote --no-bracket-spacing --print-width %s %s"
-           (if (string-match "react-monorepo" (buffer-file-name)) "100" "85")
+   (format "/usr/local/bin/prettier --write --single-quote --no-bracket-spacing --print-width 100 %s"
            (shell-quote-argument (buffer-file-name)))))
 
 (setq is-theme-dark t)
@@ -159,22 +152,20 @@
   (setq is-theme-dark (not is-theme-dark)))
 (toggle-theme)
 
-(defun figwheel ()
+
+(require 'sublimity)
+(require 'sublimity-attractive)
+(defun middle ()
   (interactive)
-  (insert "(use 'figwheel-sidecar.repl-api)(cljs-repl)"))
+  (sublimity-mode 1)
+  (if sublimity-attractive-centering-width
+      (setq sublimity-attractive-centering-width nil)
+    (setq sublimity-attractive-centering-width 110)))
 
 ;; Shortcuts
 (global-set-key (kbd "<f7>") 'toggle-theme)
 (global-set-key (kbd "<f1>") 'date-battery)
 (global-set-key (kbd "<f2>") 'magit-status)
 (global-set-key (kbd "<f4>") 'prettier)
-
+(global-set-key (kbd "<f12>") 'middle)
 (global-set-key (kbd "C-q") 'mark-sexp)
-(global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
-(global-set-key (kbd "C-c g") 'helm-google-suggest)
-
-(global-set-key (kbd "s-<down>")  'windmove-down)
-(global-set-key (kbd "s-<left>")  'windmove-left)
-(global-set-key (kbd "s-<right>") 'windmove-right)
-(global-set-key (kbd "s-<up>")    'windmove-up)
